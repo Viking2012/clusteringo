@@ -14,7 +14,7 @@ var (
 type Node struct {
 	Id         int64
 	Labels     []string
-	Properties map[string]interface{}
+	Properties map[string]any
 }
 
 // ID allows Node to satisfy the interface requirements of a gonum graph.Node

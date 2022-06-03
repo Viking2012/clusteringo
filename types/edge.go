@@ -17,9 +17,12 @@ type RelationshipEdge struct {
 	Start      Node
 	End        Node
 	Types      []string
-	Properties map[string]interface{}
+	Properties map[string]any
 }
 
+// edgeFactory is required for go to register a RelationshipEdge as a gonum graph.Edge
+// Otherwise, gonum functions which receive or return a graph.Edge interfaces wouldn't recognize
+// a RelationshipEdge as satisfying the interface.
 func edgeFactory(r RelationshipEdge) graph.Edge {
 	return RelationshipEdge{
 		Id:         r.Id,

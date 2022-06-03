@@ -16,7 +16,7 @@ type RelationshipLine struct {
 	Start      Node
 	End        Node
 	Types      []string
-	Properties map[string]interface{}
+	Properties map[string]any
 }
 
 func lineFactory(r RelationshipLine) graph.Line {
