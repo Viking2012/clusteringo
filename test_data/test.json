@@ -1,5 +1,5 @@
 {
-    "nodes":[
+    "nodes": [
         {
             "identity": 493321,
             "labels": [
@@ -25,7 +25,7 @@
                 "Key": "Hybrid_CH_CH4_3000000501602",
                 "NAME1": "Hybrid_CH_CH4_3000000501602",
                 "SPERR": "X",
-                "Name": "Hybrid_CH_CH4_3000000501602",
+                "Name": "Hybrid_CH_CH4_3000000501602"
             }
         },
         {
@@ -408,7 +408,7 @@
             }
         }
     ],
-    "rels":[
+    "rels": [
         {
             "identity": 9978822,
             "start": 493321,

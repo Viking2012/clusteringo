@@ -1,9 +1,11 @@
 package types
 
 import (
+	"fmt"
 	"strings"
 
 	"gonum.org/v1/gonum/graph"
+	"gonum.org/v1/gonum/graph/encoding"
 )
 
 var (
@@ -18,6 +20,7 @@ type RelationshipEdge struct {
 	End        Node
 	Types      []string
 	Properties map[string]any
+	weight     float64
 }
 
 // edgeFactory is required for go to register a RelationshipEdge as a gonum graph.Edge
@@ -50,3 +53,27 @@ func (r RelationshipEdge) ReversedEdge() graph.Edge {
 
 // String prints all types of a Relationship in neo4j format
 func (r *RelationshipEdge) String() string { return strings.Join(r.Types[:], ":") }
+
+func (r *RelationshipEdge) Attributes() (attrs []encoding.Attribute) {
+	for k, v := range r.Properties {
+		attrs = append(attrs, encoding.Attribute{
+			Key:   k,
+			Value: fmt.Sprintf("%v", v),
+		})
+	}
+	return attrs
+}
+
+func NewRelationshipEdge(id int64, from, to Node, types []string, props map[string]any) RelationshipEdge {
+	return RelationshipEdge{
+		Id:         id,
+		Start:      from,
+		End:        to,
+		Types:      types,
+		Properties: props,
+	}
+}
+
+func (r RelationshipEdge) Weight() float64 {
+	return interfaceToFloat(r.Properties["weight"])
+}

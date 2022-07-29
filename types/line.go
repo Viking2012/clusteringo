@@ -1,9 +1,11 @@
 package types
 
 import (
+	"fmt"
 	"strings"
 
 	"gonum.org/v1/gonum/graph"
+	"gonum.org/v1/gonum/graph/encoding"
 )
 
 var (
@@ -17,6 +19,7 @@ type RelationshipLine struct {
 	End        Node
 	Types      []string
 	Properties map[string]any
+	weight     float64
 }
 
 func lineFactory(r RelationshipLine) graph.Line {
@@ -57,3 +60,27 @@ func (r RelationshipLine) ID() int64 {
 
 // String prints all types of a Relationship in neo4j format
 func (r *RelationshipLine) String() string { return strings.Join(r.Types[:], ":") }
+
+func (r *RelationshipLine) Attributes() (attrs []encoding.Attribute) {
+	for k, v := range r.Properties {
+		attrs = append(attrs, encoding.Attribute{
+			Key:   k,
+			Value: fmt.Sprintf("%v", v),
+		})
+	}
+	return attrs
+}
+
+func NewRelationshipLine(id int64, from, to Node, types []string, props map[string]any) RelationshipLine {
+	return RelationshipLine{
+		Id:         int64(id),
+		Start:      from,
+		End:        to,
+		Types:      types,
+		Properties: props,
+	}
+}
+
+func (r RelationshipLine) Weight() float64 {
+	return interfaceToFloat(r.Properties["weight"])
+}
